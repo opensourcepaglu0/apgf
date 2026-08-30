@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from "react"
@@ -28,9 +29,15 @@ import {
 
 import { Separator } from "@/components/ui/separator"
 
-import { completeProfileSchema, ProfileFormValues } from "@/lib/validations/complete-profile"
+import {
+  completeProfileSchema,
+  ProfileFormValues,
+} from "@/lib/validations/complete-profile"
 
-import { createProfile, checkUsername } from "@/app/complete-profile/actions"
+import {
+  createProfile,
+  checkUsername,
+} from "@/app/complete-profile/actions"
 
 import { toast } from "../ui/toast"
 
@@ -145,7 +152,9 @@ export function CompleteProfileForm({ user }: { user: any }) {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const [selectedProvince, setSelectedProvince] = useState<string | null>("")
+  // Province is either a string or empty.
+  // It does not need to be nullable.
+  const [selectedProvince, setSelectedProvince] = useState<string>("")
 
   const [usernameStatus, setUsernameStatus] = useState<
     "idle" | "checking" | "available" | "taken"
@@ -170,7 +179,6 @@ export function CompleteProfileForm({ user }: { user: any }) {
       display_name: "",
       province: "",
       city: "",
-      
     },
   })
 
@@ -193,8 +201,7 @@ export function CompleteProfileForm({ user }: { user: any }) {
       return
     }
 
-    // Don't check usernames that are
-    // already invalid
+    // Don't check usernames that are already invalid
     if (
       normalizedUsername.length < 3 ||
       normalizedUsername.length > 20 ||
@@ -237,32 +244,35 @@ export function CompleteProfileForm({ user }: { user: any }) {
   async function onSubmit(data: ProfileFormValues) {
     // Don't allow submission while username
     // is being checked
+    //
     // if (usernameStatus === "checking") {
     //   toast.add({
     //     type: "error",
     //     description: "Please wait while we check your username.",
     //   })
-
+    //
     //   return
     // }
 
-    // // Don't allow unavailable username
+    // Don't allow unavailable username
+    //
     // if (usernameStatus === "taken") {
     //   toast.add({
     //     type: "error",
     //     description: "Please choose a different username.",
     //   })
-
+    //
     //   return
     // }
 
-    // // Safety check
+    // Safety check
+    //
     // if (usernameStatus !== "available") {
     //   toast.add({
     //     type: "error",
     //     description: "Please enter a valid available username.",
     //   })
-
+    //
     //   return
     // }
 
@@ -338,7 +348,9 @@ export function CompleteProfileForm({ user }: { user: any }) {
 
           <section className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-white">Identity</h3>
+              <h3 className="text-lg font-semibold text-white">
+                Identity
+              </h3>
 
               <p className="text-sm text-zinc-400">
                 Your public federation profile.
@@ -420,7 +432,9 @@ export function CompleteProfileForm({ user }: { user: any }) {
 
           <section className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-white">Location</h3>
+              <h3 className="text-lg font-semibold text-white">
+                Location
+              </h3>
 
               <p className="text-sm text-zinc-400">
                 Helps gamers near you discover your profile.
@@ -437,16 +451,18 @@ export function CompleteProfileForm({ user }: { user: any }) {
 
                 <Select
                   value={selectedProvince}
-                
                   onValueChange={(value) => {
-                    setSelectedProvince(value)
+                    // Radix/shadcn Select can provide null.
+                    // Normalize it to an empty string.
+                    const province = value ?? ""
 
-                    setValue("province", value, {
+                    setSelectedProvince(province)
+
+                    setValue("province", province, {
                       shouldValidate: true,
                     })
 
                     // Reset city whenever province changes
-
                     setValue("city", "", {
                       shouldValidate: true,
                     })
@@ -486,7 +502,7 @@ export function CompleteProfileForm({ user }: { user: any }) {
                 <Select
                   value={watch("city")}
                   onValueChange={(value) =>
-                    setValue("city", value, {
+                    setValue("city", value ?? "", {
                       shouldValidate: true,
                     })
                   }
@@ -516,7 +532,9 @@ export function CompleteProfileForm({ user }: { user: any }) {
                 </Select>
 
                 {errors.city && (
-                  <p className="text-xs text-red-400">{errors.city.message}</p>
+                  <p className="text-xs text-red-400">
+                    {errors.city.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -541,9 +559,7 @@ export function CompleteProfileForm({ user }: { user: any }) {
               </p>
             </div>
 
-
             <div className="space-y-2">
-
               <Label>
                 Bio
               </Label>
@@ -554,12 +570,9 @@ export function CompleteProfileForm({ user }: { user: any }) {
                 {...register("bio")}
                 className="resize-none rounded-xl bg-zinc-950"
               />
-
             </div>
 
-
             <div className="space-y-2">
-
               <Label>
                 Main gamer
               </Label>
@@ -569,7 +582,6 @@ export function CompleteProfileForm({ user }: { user: any }) {
                 {...register("main_game")}
                 className="h-12 rounded-xl bg-zinc-950"
               />
-
             </div>
 
           </section>
@@ -586,11 +598,8 @@ export function CompleteProfileForm({ user }: { user: any }) {
 
             <ul className="mt-3 space-y-2 text-sm text-zinc-400">
               <li>✓ APGF ID generated</li>
-
               <li>✓ Gamer Card unlocked</li>
-
               <li>✓ Public profile created</li>
-
               <li>✓ Discoverable by gamers</li>
             </ul>
           </div>
@@ -611,7 +620,11 @@ export function CompleteProfileForm({ user }: { user: any }) {
 
           <Button
             type="submit"
-            disabled={loading || usernameStatus !== "available" || !isValid}
+            disabled={
+              loading ||
+              usernameStatus !== "available" ||
+              !isValid
+            }
             className="h-14 w-full rounded-xl bg-gradient-to-r from-emerald-500 to-green-400 text-base font-bold text-black transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading
@@ -625,3 +638,4 @@ export function CompleteProfileForm({ user }: { user: any }) {
     </Card>
   )
 }
+
