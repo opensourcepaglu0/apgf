@@ -437,6 +437,7 @@ export function CompleteProfileForm({ user }: { user: any }) {
 
                 <Select
                   value={selectedProvince}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onValueChange={(value) => {
                     setSelectedProvince(value)
 
