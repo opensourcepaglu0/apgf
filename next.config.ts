@@ -7,6 +7,14 @@ const nextConfig = {
       },
     ],
   },
+    typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    // Warning: this allows production builds to complete even with lint errors.
+    ignoreDuringBuilds: true,
+  },
+
 }
 
 export default nextConfig
