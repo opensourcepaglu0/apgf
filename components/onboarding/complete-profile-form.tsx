@@ -437,6 +437,7 @@ export function CompleteProfileForm({ user }: { user: any }) {
 
                 <Select
                   value={selectedProvince}
+                
                   onValueChange={(value) => {
                     setSelectedProvince(value)
 
