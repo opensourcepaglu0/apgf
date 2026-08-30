@@ -145,7 +145,7 @@ export function CompleteProfileForm({ user }: { user: any }) {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const [selectedProvince, setSelectedProvince] = useState("")
+  const [selectedProvince, setSelectedProvince] = useState<string | null>("")
 
   const [usernameStatus, setUsernameStatus] = useState<
     "idle" | "checking" | "available" | "taken"
