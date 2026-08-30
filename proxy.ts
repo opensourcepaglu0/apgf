@@ -5,10 +5,10 @@ export async function proxy(request: NextRequest) {
   return await updateSession(request)
 }
 
-// export const config = {
-//   matcher: [
-//     "/dashboard/:path*",
-//     "/edit-profile/:path*",
-//     "/complete-profile/:path*",
-//   ],
-// }
+export const config = {
+  matcher: [
+    "/dashboard/:path*",
+    "/edit-profile/:path*",
+    "/complete-profile/:path*",
+  ],
+}
