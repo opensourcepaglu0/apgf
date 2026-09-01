@@ -110,24 +110,20 @@ export function GamerCard({ profile }: GamerCardProps) {
         )}
 
         {/* Games */}
-           <div className="mt-8">
-          <h3 className="mb-4 text-sm font-semibold tracking-wider text-zinc-500 uppercase">
-            Main Game
-          </h3>
+  {profile.main_game && (
+  <div className="mt-8">
+    <h3 className="mb-4 text-sm font-semibold tracking-wider text-zinc-500 uppercase">
+      Main Game
+    </h3>
 
-
-            <div className="flex flex-wrap gap-2">
-     
-                <Badge
-                  key={profile.main_game}
-                  className="rounded-full border border-zinc-700 bg-zinc-800/70 px-3 py-1 text-zinc-200 transition hover:bg-zinc-700"
-                >
-                  <Gamepad2 className="mr-1 h-3.5 w-3.5" />
-                  {profile.main_game}
-                </Badge>
-           
- </div>
- </div>
+    <div className="flex flex-wrap gap-2">
+      <Badge className="rounded-full border border-zinc-700 bg-zinc-800/70 px-3 py-1 text-zinc-200 transition hover:bg-zinc-700">
+        <Gamepad2 className="mr-1 h-3.5 w-3.5" />
+        {profile.main_game}
+      </Badge>
+    </div>
+  </div>
+)}
 
         <div className="mt-8">
           <h3 className="mb-4 text-sm font-semibold tracking-wider text-zinc-500 uppercase">

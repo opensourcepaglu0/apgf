@@ -1,3 +1,4 @@
+
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
@@ -9,6 +10,15 @@ type ExploreParams = {
   search?: string
   province?: string
   city?: string
+}
+
+// Escape characters that have special meaning
+// inside a PostgREST filter expression.
+function sanitizeSearch(value: string) {
+  return value
+    .trim()
+    .replace(/[%_,.()]/g, "")
+    .replace(/[{}]/g, "")
 }
 
 export async function getExploreProfiles({
@@ -48,24 +58,37 @@ export async function getExploreProfiles({
       )
       .eq("is_public", true)
 
-    // Search username, display name, or APGF ID
-    const trimmedSearch = search.trim()
+    // ==================================================
+    // Search
+    // ==================================================
 
-    if (trimmedSearch) {
+    const sanitizedSearch = sanitizeSearch(search)
+
+    if (sanitizedSearch) {
       query = query.or(
-        `username.ilike.%${trimmedSearch}%,display_name.ilike.%${trimmedSearch}%,apgf_id.ilike.%${trimmedSearch}%`
+        `username.ilike.%${sanitizedSearch}%,display_name.ilike.%${sanitizedSearch}%,apgf_id.ilike.%${sanitizedSearch}%`
       )
     }
 
-    // Province filter
+    // ==================================================
+    // Province
+    // ==================================================
+
     if (province) {
       query = query.eq("province", province)
     }
 
-    // City filter
+    // ==================================================
+    // City
+    // ==================================================
+
     if (city) {
       query = query.eq("city", city)
     }
+
+    // ==================================================
+    // Execute
+    // ==================================================
 
     const {
       data,
@@ -76,7 +99,10 @@ export async function getExploreProfiles({
       .range(from, to)
 
     if (error) {
-      console.error("Explore profiles error:", error)
+      console.error(
+        "Explore profiles error:",
+        error
+      )
 
       return {
         success: false,
@@ -93,11 +119,16 @@ export async function getExploreProfiles({
       success: true,
       profiles: data ?? [],
       total,
-      totalPages: Math.ceil(total / PAGE_SIZE),
+      totalPages: Math.ceil(
+        total / PAGE_SIZE
+      ),
       error: null,
     }
   } catch (error) {
-    console.error("Explore profiles exception:", error)
+    console.error(
+      "Explore profiles exception:",
+      error
+    )
 
     return {
       success: false,
@@ -108,3 +139,4 @@ export async function getExploreProfiles({
     }
   }
 }
+

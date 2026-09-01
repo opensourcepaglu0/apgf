@@ -242,39 +242,39 @@ export function CompleteProfileForm({ user }: { user: any }) {
   // --------------------------------------------------
 
   async function onSubmit(data: ProfileFormValues) {
-    // Don't allow submission while username
-    // is being checked
-    //
-    // if (usernameStatus === "checking") {
-    //   toast.add({
-    //     type: "error",
-    //     description: "Please wait while we check your username.",
-    //   })
-    //
-    //   return
-    // }
+    Don't allow submission while username
+    is being checked
+    
+    if (usernameStatus === "checking") {
+      toast.add({
+        type: "error",
+        description: "Please wait while we check your username.",
+      })
+    
+      return
+    }
 
-    // Don't allow unavailable username
-    //
-    // if (usernameStatus === "taken") {
-    //   toast.add({
-    //     type: "error",
-    //     description: "Please choose a different username.",
-    //   })
-    //
-    //   return
-    // }
+    Don't allow unavailable username
+    
+    if (usernameStatus === "taken") {
+      toast.add({
+        type: "error",
+        description: "Please choose a different username.",
+      })
+    
+      return
+    }
 
-    // Safety check
-    //
-    // if (usernameStatus !== "available") {
-    //   toast.add({
-    //     type: "error",
-    //     description: "Please enter a valid available username.",
-    //   })
-    //
-    //   return
-    // }
+    Safety check
+    
+    if (usernameStatus !== "available") {
+      toast.add({
+        type: "error",
+        description: "Please enter a valid available username.",
+      })
+    
+      return
+    }
 
     setLoading(true)
     setError("")
