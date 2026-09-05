@@ -1,5 +1,8 @@
-import { redirect } from "next/navigation"
+import { HomePage } from '@/components/landing/home-page';
+import React from 'react'
 
-export default function Home() {
-  redirect("/sign-in")
+export default function page() {
+  return (
+    <HomePage />
+  )
 }

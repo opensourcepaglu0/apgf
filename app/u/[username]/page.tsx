@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/server"
 import { PublicProfile } from "@/components/profile/public-profile"
+import { APGFBackground } from "@/components/motion/apgf-background";
 
 type PageProps = {
   params: Promise<{
@@ -9,7 +10,9 @@ type PageProps = {
   }>
 }
 
-export default async function PublicProfilePage({ params }: PageProps) {
+export default async function PublicProfilePage({
+  params,
+}: PageProps) {
   const { username } = await params
 
   const supabase = await createClient()
@@ -18,6 +21,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     .from("profiles")
     .select("*")
     .eq("username", username)
+    .eq("is_public", true)
     .single()
 
   if (error || !profile) {
@@ -25,10 +29,9 @@ export default async function PublicProfilePage({ params }: PageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-zinc-950 py-12">
-      <div className="container mx-auto max-w-5xl px-4">
-        <PublicProfile profile={profile} />
-      </div>
+    <main className="min-h-screen bg-[#050706] text-white">
+      <APGFBackground glow cursorGlow intensity="subtle" grid />
+      <PublicProfile profile={profile} />
     </main>
   )
 }
