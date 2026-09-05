@@ -242,8 +242,8 @@ export function CompleteProfileForm({ user }: { user: any }) {
   // --------------------------------------------------
 
   async function onSubmit(data: ProfileFormValues) {
-    Don't allow submission while username
-    is being checked
+    // Don't allow submission while username
+    // is being checked
     
     if (usernameStatus === "checking") {
       toast.add({
@@ -254,7 +254,7 @@ export function CompleteProfileForm({ user }: { user: any }) {
       return
     }
 
-    Don't allow unavailable username
+    // Don't allow unavailable username
     
     if (usernameStatus === "taken") {
       toast.add({
@@ -265,7 +265,7 @@ export function CompleteProfileForm({ user }: { user: any }) {
       return
     }
 
-    Safety check
+    // Safety check
     
     if (usernameStatus !== "available") {
       toast.add({
